@@ -3,8 +3,7 @@ import '../snake/snake.css';
 
 function Snake(props) {
   return (
-      
-    <div>
+      <div>
       {props.snakeBody.map((dot, i) => {
             const style = {
                 left: `${dot[0]}%`,

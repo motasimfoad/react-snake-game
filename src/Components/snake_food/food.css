@@ -1,0 +1,8 @@
+.food-body {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    background-color: green;
+    border: 1px solid #fff;
+    z-index: 1;
+  }
