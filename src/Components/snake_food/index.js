@@ -16,8 +16,7 @@ const [foodStyleL , setFoodStyleL] = useState([
     top: `${foodStyleT}%`
  };
 
-
-  return (
+return (
     <div>
       <div className="food-body" style={style}></div>
     </div>
