@@ -70,31 +70,47 @@ const App = () => {
     setSnake(snakeCopy);
     switch (snake.length) {
             case 5:
-            setSpeed(90);
+            setSpeed(95);
             setSpeedText("Game Started");
             break;
             case 10:
-            setSpeed(80)
+            setSpeed(90)
             setSpeedText("Speed 130");
             break;
             case 15:
-            setSpeed(70)
+            setSpeed(85)
             setSpeedText("Speed 120");
             break;
             case 20:
-            setSpeed(60)
+            setSpeed(80)
             setSpeedText("Speed 110");
             break;
             case 25:
-            setSpeed(50)
+            setSpeed(75)
             setSpeedText("Speed 100");
             break;
             case 30:
-            setSpeed(40)
+            setSpeed(70)
             setSpeedText("Speed 90");
             break;
-            case 35:
-            setSpeed(30)
+            case 40:
+            setSpeed(65)
+            setSpeedText("Speed 80");
+            break;
+            case 45:
+            setSpeed(63)
+            setSpeedText("Speed 80");
+            break;
+            case 50:
+            setSpeed(60)
+            setSpeedText("Speed 80");
+            break;
+            case 60:
+            setSpeed(50)
+            setSpeedText("Speed 80");
+            break;
+            case 70:
+            setSpeed(40)
             setSpeedText("Speed 80");
             break;
     
@@ -122,21 +138,44 @@ const App = () => {
   return (
     <div className = "App">
       <div className="left">
-      <div role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
+      <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
         <canvas
-          style={{ background: "black",border: "1px solid black" }}
+          style={{ marginTop: "50px",background: "black",border: "1px solid black" }}
           ref={canvasRef}
           width={`${CANVAS_SIZE[0]}px`}
           height={`${CANVAS_SIZE[1]}px`}
         />
-        {gameOver && <div>GAME OVER!</div>} <br/>
-        {sppedText}<br/>
-        {snake.length}<br/>
+        {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
+        
+        <p style={{color:'white'}}>Snake Size : {snake.length}</p>
         <button onClick={startGame}>Start Game</button>
       </div>
       </div>
       <div className="right">
-
+      <div>
+        <h1>
+          Instructions
+        </h1>
+        <p>
+        1. Use keyboard <strong>ARROW</strong> keys to control your snake <br />
+        2. Avoid <strong>crashing</strong> in walls <br />
+        3. Speed of snake will <strong>increase</strong> with your score <br />
+        4. If <strong>Game Over</strong> use <strong>ENTER/RETURN</strong> key to restart <br />
+        5. Use <strong>ARROW Keys</strong> wisely as wrong keypress might kill your snake. 
+        </p>
+      </div>
+      <div>
+        <h1>
+          Best Snake Charmars 😜 
+        </h1>
+        <p>
+        1. Use keyboard <strong>ARROW</strong> keys to control your snake <br />
+        2. Avoid <strong>crashing</strong> in walls <br />
+        3. Speed of snake will <strong>increase</strong> with your score <br />
+        4. If <strong>Game Over</strong> use <strong>ENTER/RETURN</strong> key to restart <br />
+        5. Use <strong>ARROW Keys</strong> wisely as wrong keypress might kill your snake. 
+        </p>
+      </div>
       </div>
     </div>
     

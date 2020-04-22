@@ -9,6 +9,12 @@ width: 50%;
 float: left;
 }
 
+.leftContainer{
+  background-color: grey;
+  height: 100%;
+ 
+}
+
 .right{
   height: 100%;
   width: 50%;
