@@ -8,6 +8,7 @@ import {
   SPEED,
   DIRECTIONS
 } from '../../Constant';
+import '../Home/home.css'
 
 const App = () => {
   const canvasRef = useRef();
@@ -25,8 +26,10 @@ const App = () => {
     setGameOver(true);
   };
 
-  const moveSnake = ({ keyCode }) =>
-    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]);
+  const moveSnake = ({ keyCode }) => {
+    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]) || keyCode===13 && startGame();
+  }
+    
 
   const createApple = () =>
     apple.map((_a, i) => Math.floor(Math.random() * (CANVAS_SIZE[i] / SCALE)));
@@ -67,31 +70,31 @@ const App = () => {
     setSnake(snakeCopy);
     switch (snake.length) {
             case 5:
-            setSpeed(140);
+            setSpeed(90);
             setSpeedText("Game Started");
             break;
             case 10:
-            setSpeed(130)
+            setSpeed(80)
             setSpeedText("Speed 130");
             break;
             case 15:
-            setSpeed(120)
+            setSpeed(70)
             setSpeedText("Speed 120");
             break;
             case 20:
-            setSpeed(110)
+            setSpeed(60)
             setSpeedText("Speed 110");
             break;
             case 25:
-            setSpeed(100)
+            setSpeed(50)
             setSpeedText("Speed 100");
             break;
             case 30:
-            setSpeed(90)
+            setSpeed(40)
             setSpeedText("Speed 90");
             break;
             case 35:
-            setSpeed(80)
+            setSpeed(30)
             setSpeedText("Speed 80");
             break;
     
@@ -110,24 +113,33 @@ const App = () => {
     const context = canvasRef.current.getContext("2d");
     context.setTransform(SCALE, 0, 0, SCALE, 0, 0);
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.fillStyle = "pink";
+    context.fillStyle = "white";
     snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1));
-    context.fillStyle = "lightblue";
+    context.fillStyle = "red";
     context.fillRect(apple[0], apple[1], 1, 1);
   }, [snake, apple, gameOver]);
 
   return (
-    <div role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
-      <canvas
-        style={{ border: "1px solid black" }}
-        ref={canvasRef}
-        width={`${CANVAS_SIZE[0]}px`}
-        height={`${CANVAS_SIZE[1]}px`}
-      />
-      {gameOver && <div>GAME OVER!{snake.length}</div>}
-      {sppedText}
-      <button onClick={startGame}>Start Game</button>
+    <div className = "App">
+      <div className="left">
+      <div role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
+        <canvas
+          style={{ background: "black",border: "1px solid black" }}
+          ref={canvasRef}
+          width={`${CANVAS_SIZE[0]}px`}
+          height={`${CANVAS_SIZE[1]}px`}
+        />
+        {gameOver && <div>GAME OVER!</div>} <br/>
+        {sppedText}<br/>
+        {snake.length}<br/>
+        <button onClick={startGame}>Start Game</button>
+      </div>
+      </div>
+      <div className="right">
+
+      </div>
     </div>
+    
   );
 };
 

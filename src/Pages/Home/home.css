@@ -1,6 +1,18 @@
 .App {
   height: 100vh;
-  background-color: aqua;
+  text-align: center;
+}
+
+.left{
+height: 100%;
+width: 50%;
+float: left;
+}
+
+.right{
+  height: 100%;
+  width: 50%;
+  float: right;
 }
 
 .game-board{
