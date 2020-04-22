@@ -1,6 +1,7 @@
 # react-snake-game
 Simple web version of classic snake game using ReactJS
 
+The repo was cloned for game logic from "https://github.com/weibenfalk/react-snake-starter-files"
 
 Development files are under "dev" branch.
 

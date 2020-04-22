@@ -16,6 +16,7 @@ const App = () => {
   const [dir, setDir] = useState([0, -1]);
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+  const [sppedText, setSpeedText] = useState(" ")
 
   useInterval(() => gameLoop(), speed);
 
@@ -65,26 +66,33 @@ const App = () => {
     if (!checkAppleCollision(snakeCopy)) snakeCopy.pop();
     setSnake(snakeCopy);
     switch (snake.length) {
-        case 5:
-            setSpeed(140)
+            case 5:
+            setSpeed(140);
+            setSpeedText("Game Started");
             break;
             case 10:
-                setSpeed(130)
-                break;
-                case 15:
+            setSpeed(130)
+            setSpeedText("Speed 130");
+            break;
+            case 15:
             setSpeed(120)
+            setSpeedText("Speed 120");
             break;
             case 20:
             setSpeed(110)
+            setSpeedText("Speed 110");
             break;
             case 25:
             setSpeed(100)
+            setSpeedText("Speed 100");
             break;
             case 30:
             setSpeed(90)
+            setSpeedText("Speed 90");
             break;
             case 35:
-            setSpeed(50)
+            setSpeed(80)
+            setSpeedText("Speed 80");
             break;
     
     }
@@ -117,6 +125,7 @@ const App = () => {
         height={`${CANVAS_SIZE[1]}px`}
       />
       {gameOver && <div>GAME OVER!{snake.length}</div>}
+      {sppedText}
       <button onClick={startGame}>Start Game</button>
     </div>
   );
