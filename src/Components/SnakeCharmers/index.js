@@ -11,26 +11,22 @@ function SnakeCharmers() {
         <Table striped bordered hover variant="dark">
             <thead>
                 <tr>
-                <th>#Rank</th>
                 <th>Name</th>
                 <th>Score</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                <td>1</td>
                 <td>Mark</td>
                 <td>Otto</td>
                
                 </tr>
                 <tr>
-                <td>2</td>
                 <td>Jacob</td>
                 <td>Thornton</td>
                 
                 </tr>
                 <tr>
-                <td>3</td>
                 <td>Jacob</td>
                 <td>Thornton</td>
                 
