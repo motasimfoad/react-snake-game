@@ -8,7 +8,10 @@ import {
   SPEED,
   DIRECTIONS
 } from '../../Constant';
-import '../Home/home.css'
+import '../Home/home.css';
+import Instructions from '../../Components/Instructions';
+import SnakeCharmers from '../../Components/SnakeCharmers';
+import {Button} from 'react-bootstrap';
 
 const App = () => {
   const canvasRef = useRef();
@@ -147,35 +150,13 @@ const App = () => {
         />
         {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
         
-        <p style={{color:'white'}}>Snake Size : {snake.length}</p>
-        <button onClick={startGame}>Start Game</button>
+        <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
+        <Button variant="outline-light" onClick={startGame}>START</Button>
       </div>
       </div>
       <div className="right">
-      <div>
-        <h1>
-          Instructions
-        </h1>
-        <p>
-        1. Use keyboard <strong>ARROW</strong> keys to control your snake <br />
-        2. Avoid <strong>crashing</strong> in walls <br />
-        3. Speed of snake will <strong>increase</strong> with your score <br />
-        4. If <strong>Game Over</strong> use <strong>ENTER/RETURN</strong> key to restart <br />
-        5. Use <strong>ARROW Keys</strong> wisely as wrong keypress might kill your snake. 
-        </p>
-      </div>
-      <div>
-        <h1>
-          Best Snake Charmars 😜 
-        </h1>
-        <p>
-        1. Use keyboard <strong>ARROW</strong> keys to control your snake <br />
-        2. Avoid <strong>crashing</strong> in walls <br />
-        3. Speed of snake will <strong>increase</strong> with your score <br />
-        4. If <strong>Game Over</strong> use <strong>ENTER/RETURN</strong> key to restart <br />
-        5. Use <strong>ARROW Keys</strong> wisely as wrong keypress might kill your snake. 
-        </p>
-      </div>
+      <Instructions />
+      <SnakeCharmers />
       </div>
     </div>
     
