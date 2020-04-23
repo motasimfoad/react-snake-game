@@ -15,11 +15,15 @@ import {
   Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
+import mp3File from '../../Assets/Audio/mkiss.mp3';
+import go from '../../Assets/Audio/gameOver.mp3';
+import ins1 from '../../Assets/Audio/inspiration.mp3';
+import ins2 from '../../Assets/Audio/speech.mp3';
 
-
-
-
-
+let audio = new Audio(mp3File);
+let audio2 = new Audio(go);
+let audio3 = new Audio(ins1);
+let audio4 = new Audio(ins2);
 
 const App = () => {
   const canvasRef = useRef();
@@ -29,7 +33,7 @@ const App = () => {
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [playerName, setPlayerName] = useState('No Name');
-  const [modalShow, setModalShow] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
   const [rememberMe, setRememberMe] = useState();
 
   useInterval(() => gameLoop(), speed);
@@ -83,6 +87,7 @@ const App = () => {
   const endGame = () => {
     setSpeed(null);
     setGameOver(true);
+    audio2.play();
     if (rememberMe === 'false') {
       setModalShow(true);
     }
@@ -119,8 +124,7 @@ const App = () => {
         newApple = createApple();
       }
       setApple(newApple);
-      console.log("ate");
-      
+      audio.play();
       return true;
     }
     return false;
@@ -136,36 +140,47 @@ const App = () => {
     switch (snake.length) {
             case 5:
             setSpeed(95);
+            audio3.play();
             break;
             case 10:
-            setSpeed(90)
+            setSpeed(90);
+            audio4.play();
             break;
             case 15:
-            setSpeed(85)
+            setSpeed(85);
+            audio3.play();
             break;
             case 20:
-            setSpeed(80)
+            setSpeed(80);
+            audio4.play();
             break;
             case 25:
-            setSpeed(75)
+            setSpeed(75);
+            audio3.play();
             break;
             case 30:
-            setSpeed(70)
+            setSpeed(70);
+            audio4.play();
             break;
             case 40:
-            setSpeed(65)
+            setSpeed(65);
+            audio3.play();
             break;
             case 45:
-            setSpeed(63)
+            setSpeed(63);
+            audio4.play();
             break;
             case 50:
-            setSpeed(60)
+            setSpeed(60);
+            audio3.play();
             break;
             case 60:
-            setSpeed(50)
+            setSpeed(50);
+            audio4.play();
             break;
             case 70:
-            setSpeed(40)
+            setSpeed(40);
+            audio3.play();
             break;
     }
   };
