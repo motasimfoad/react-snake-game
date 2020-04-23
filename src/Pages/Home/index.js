@@ -19,6 +19,8 @@ import mp3File from '../../Assets/Audio/mkiss.mp3';
 import go from '../../Assets/Audio/gameOver.mp3';
 import ins1 from '../../Assets/Audio/inspiration.mp3';
 import ins2 from '../../Assets/Audio/speech.mp3';
+import ReactGa from 'react-ga';
+import {Helmet} from "react-helmet";
 
 let audio = new Audio(mp3File);
 let audio2 = new Audio(go);
@@ -33,12 +35,14 @@ const App = () => {
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [playerName, setPlayerName] = useState('No Name');
-  const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(true);
   const [rememberMe, setRememberMe] = useState();
 
   useInterval(() => gameLoop(), speed);
   
-  
+  ReactGa.initialize("UA-154721739-1");
+  ReactGa.pageview('Home Screen');
+
   const resultGenerator = () =>{
     firebase.firestore().collection('ScoreBoard').add({
       mame: playerName,
@@ -72,7 +76,7 @@ const App = () => {
               <Form.Control type="text" placeholder="Your Name" onChange={e => setNplayerName(e.target.value)}/>
             </Form.Group>
             <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Remember Me?" onChange={e => setNrememberMe(e.target.value)}/>
+              <Form.Check type="checkbox" label="Save your name?" onChange={e => setNrememberMe(e.target.value)}/>
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
@@ -205,6 +209,12 @@ const App = () => {
 
   return (
     <Container className = "App" fluid>
+           <Helmet>
+                <meta charSet="utf-8" />
+                <title>Classical Snake Game by Motasim Foad</title>
+                <link rel="canonical" href="http://motasimfoad.com/game/snake" />
+                <meta name="description" content="Motasim Foad | Home - Product Manager | Project Manager | Software Engineer" />
+            </Helmet>
       <Row>
       <Col xl={7}>
         <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
