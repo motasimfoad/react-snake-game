@@ -7,7 +7,11 @@ function useScore(){
   const [score, setScore] = useState([]);
 
   useEffect(() => {
-    firebase.firestore().collection('ScoreBoard').onSnapshot((snapshot) =>{
+    firebase
+    .firestore()
+    .collection('ScoreBoard')
+    .orderBy('score', 'desc')
+    .onSnapshot((snapshot) =>{
       const newScore = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()

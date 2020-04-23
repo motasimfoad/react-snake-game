@@ -12,33 +12,81 @@ import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
 import SnakeCharmers from '../../Components/SnakeCharmers';
 import {
-  Button, Row, Col, Container
+  Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
 
 
 
 
-function App () {
+
+
+const App = () => {
   const canvasRef = useRef();
   const [snake, setSnake] = useState(SNAKE_START);
   const [apple, setApple] = useState(APPLE_START);
   const [dir, setDir] = useState([0, -1]);
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [sppedText, setSpeedText] = useState(" ")
+  const [playerName, setPlayerName] = useState('');
+  const [modalShow, setModalShow] = useState(true);
+  const [rememberMe, setRememberMe] = useState();
 
   useInterval(() => gameLoop(), speed);
- 
+  
+  
+  const resultGenerator = () =>{
+    firebase.firestore().collection('ScoreBoard').add({
+      mame: playerName,
+      score: snake.length
+    });
+   
+  };
+
+  const MyVerticallyCenteredModal = (props) => {
+    const [nplayerName, setNplayerName] = useState(" ");
+    const [nrememberMe, setNrememberMe] = useState("false");
+   
+   const nana = () =>{
+    setPlayerName(nplayerName);
+    setRememberMe(nrememberMe);
+    setModalShow(false);
+   }
+
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton />
+        <Modal.Body style={{textAlign:'center'}}>
+          <h4> Your Name?</h4>
+          <Form onSubmit={nana}> 
+            <Form.Group controlId="formBasicEmail">
+              <Form.Control type="text" placeholder="Your Name" onChange={e => setNplayerName(e.target.value)}/>
+            </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Remember Me?" onChange={e => setNrememberMe(e.target.value)}/>
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
 
   const endGame = () => {
     setSpeed(null);
     setGameOver(true);
-    firebase.firestore().collection('ScoreBoard').add({
-      mame: 'Foad',
-      score: snake.length
-    });
+    if (rememberMe === 'false') {
+      setModalShow(true);
+    }
+    resultGenerator();
   };
 
   const moveSnake = ({ keyCode }) => {
@@ -86,47 +134,36 @@ function App () {
     switch (snake.length) {
             case 5:
             setSpeed(95);
-            setSpeedText("Game Started");
             break;
             case 10:
             setSpeed(90)
-            setSpeedText("Speed 130");
             break;
             case 15:
             setSpeed(85)
-            setSpeedText("Speed 120");
             break;
             case 20:
             setSpeed(80)
-            setSpeedText("Speed 110");
             break;
             case 25:
             setSpeed(75)
-            setSpeedText("Speed 100");
             break;
             case 30:
             setSpeed(70)
-            setSpeedText("Speed 90");
             break;
             case 40:
             setSpeed(65)
-            setSpeedText("Speed 80");
             break;
             case 45:
             setSpeed(63)
-            setSpeedText("Speed 80");
             break;
             case 50:
             setSpeed(60)
-            setSpeedText("Speed 80");
             break;
             case 60:
             setSpeed(50)
-            setSpeedText("Speed 80");
             break;
             case 70:
             setSpeed(40)
-            setSpeedText("Speed 80");
             break;
     }
   };
@@ -161,7 +198,6 @@ function App () {
             height={`${CANVAS_SIZE[1]}px`}
           />
           {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
-          
           <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
           <Button variant="outline-light" onClick={startGame}>START</Button>
         </div>
@@ -171,6 +207,10 @@ function App () {
         <SnakeCharmers />
       </Col>
       </Row>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </Container>
   );
 };
