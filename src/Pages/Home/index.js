@@ -12,8 +12,11 @@ import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
 import SnakeCharmers from '../../Components/SnakeCharmers';
 import {Button} from 'react-bootstrap';
+import firebase from '../../Firebase/Config';
 
-const App = () => {
+
+
+function App () {
   const canvasRef = useRef();
   const [snake, setSnake] = useState(SNAKE_START);
   const [apple, setApple] = useState(APPLE_START);
@@ -23,10 +26,16 @@ const App = () => {
   const [sppedText, setSpeedText] = useState(" ")
 
   useInterval(() => gameLoop(), speed);
+ 
+
 
   const endGame = () => {
     setSpeed(null);
     setGameOver(true);
+    firebase.firestore().collection('ScoreBoard').add({
+      mame: 'Foad',
+      score: '30'
+    });
   };
 
   const moveSnake = ({ keyCode }) => {

@@ -1,8 +1,25 @@
-import React from 'react';
-import {Table} from 'react-bootstrap'
+import React, {useState, useEffect} from 'react';
+import {Table} from 'react-bootstrap';
+import firebase from '../../Firebase/Config';
 
+function useScore(){
+  const [score, setScore] = useState([]);
+
+  useEffect(() => {
+    firebase.firestore().collection('score').onSnapshot((snapshot) =>{
+      const newScore = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setScore(newScore);
+    })
+  }, [])
+
+  return score;
+}
 
 function SnakeCharmers() {
+  const score= useScore()
   return (
     <div>
         <h1>
