@@ -11,8 +11,11 @@ import {
 import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
 import SnakeCharmers from '../../Components/SnakeCharmers';
-import {Button} from 'react-bootstrap';
+import {
+  Button, Row, Col, Container
+} from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
+
 
 
 
@@ -34,7 +37,7 @@ function App () {
     setGameOver(true);
     firebase.firestore().collection('ScoreBoard').add({
       mame: 'Foad',
-      score: '30'
+      score: snake.length
     });
   };
 
@@ -125,7 +128,6 @@ function App () {
             setSpeed(40)
             setSpeedText("Speed 80");
             break;
-    
     }
   };
 
@@ -148,27 +150,28 @@ function App () {
   }, [snake, apple, gameOver]);
 
   return (
-    <div className = "App">
-      <div className="left">
-      <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
-        <canvas
-          style={{ marginTop: "50px",background: "black",border: "1px solid black" }}
-          ref={canvasRef}
-          width={`${CANVAS_SIZE[0]}px`}
-          height={`${CANVAS_SIZE[1]}px`}
-        />
-        {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
-        
-        <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
-        <Button variant="outline-light" onClick={startGame}>START</Button>
-      </div>
-      </div>
-      <div className="right">
-      <Instructions />
-      <SnakeCharmers />
-      </div>
-    </div>
-    
+    <Container className = "App" fluid>
+      <Row>
+      <Col xl={7}>
+        <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
+          <canvas
+            style={{ marginTop: "50px",background: "black",border: "1px solid black" }}
+            ref={canvasRef}
+            width={`${CANVAS_SIZE[0]}px`}
+            height={`${CANVAS_SIZE[1]}px`}
+          />
+          {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
+          
+          <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
+          <Button variant="outline-light" onClick={startGame}>START</Button>
+        </div>
+      </Col>
+      <Col xl={5}>
+        <Instructions />
+        <SnakeCharmers />
+      </Col>
+      </Row>
+    </Container>
   );
 };
 

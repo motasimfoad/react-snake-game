@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
+import '../SnakeCharmers/charmer.css'
 
 function useScore(){
   const [score, setScore] = useState([]);
 
   useEffect(() => {
-    firebase.firestore().collection('score').onSnapshot((snapshot) =>{
+    firebase.firestore().collection('ScoreBoard').onSnapshot((snapshot) =>{
       const newScore = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -14,7 +15,8 @@ function useScore(){
       setScore(newScore);
     })
   }, [])
-
+ 
+ 
   return score;
 }
 
@@ -25,7 +27,8 @@ function SnakeCharmers() {
         <h1>
           Best Snake Charmars 😜 
         </h1>
-        <Table striped bordered hover variant="dark">
+        <div className="table">
+        <Table striped bordered hover variant="dark" >
             <thead>
                 <tr>
                 <th>Name</th>
@@ -33,23 +36,15 @@ function SnakeCharmers() {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <td>Mark</td>
-                <td>Otto</td>
-               
+              {score.map((item) =>
+                <tr key={item.id}>
+                <td>{item.mame}</td>
+                <td>{item.score}</td>
                 </tr>
-                <tr>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                
-                </tr>
-                <tr>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                
-                </tr>
-            </tbody>
+              )}
+             </tbody>
         </Table>
+        </div>
       </div>
   );
 }

@@ -1,0 +1,9 @@
+.table {
+    overflow: auto;
+   height: 500px;
+    
+    }
+
+    .react-bootstrap-table{
+        overflow-y:auto !important;
+        }

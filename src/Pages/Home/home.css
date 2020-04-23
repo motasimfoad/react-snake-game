@@ -1,31 +1,22 @@
 .App {
-  height: 100vh;
+  
   text-align: center;
 }
 
-.left{
-height: 100%;
-width: 50%;
-float: left;
-}
+
 
 .leftContainer{
   background-color: grey;
-  height: 100%;
+ 
  
 }
 
-.right{
-  height: 100%;
-  width: 50%;
-  float: right;
-}
 
 .game-board{
  position: relative;
  margin: 50px auto;
- height: 600px;
- width: 600px;
+ height: 500px;
+ width: 500px;
  border: 2px solid red;
 }
 
