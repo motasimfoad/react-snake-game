@@ -28,7 +28,7 @@ const App = () => {
   const [dir, setDir] = useState([0, -1]);
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [playerName, setPlayerName] = useState('');
+  const [playerName, setPlayerName] = useState('No Name');
   const [modalShow, setModalShow] = useState(true);
   const [rememberMe, setRememberMe] = useState();
 
@@ -119,6 +119,8 @@ const App = () => {
         newApple = createApple();
       }
       setApple(newApple);
+      console.log("ate");
+      
       return true;
     }
     return false;

@@ -19,9 +19,7 @@ function useScore(){
       setScore(newScore);
     })
   }, [])
- 
- 
-  return score;
+ return score;
 }
 
 function SnakeCharmers() {
