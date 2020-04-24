@@ -1,7 +1,9 @@
 # react-snake-game
-Simple web version of classic snake game using ReactJS
+Simple web version of classic snake game using ReactJS, Bootstrap, Firebase
 
-The repo was cloned for game logic from "https://github.com/weibenfalk/react-snake-starter-files"
+Live Demo : https://game.motasimfoad.com
+
+Snake logic was built following this tutorial : https://www.youtube.com/c/weibenfalk
 
 Development files are under "dev" branch.
 
