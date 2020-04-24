@@ -87,7 +87,6 @@ const App = () => {
     );
   }
 
-
   const endGame = () => {
     setSpeed(null);
     setGameOver(true);
