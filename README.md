@@ -1,13 +1,16 @@
 # react-snake-game
+
 Simple web version of classic snake game using ReactJS, Bootstrap, Firebase
 
 Live Demo : https://game.motasimfoad.com
 
 Snake logic was built following this tutorial : https://www.youtube.com/c/weibenfalk
 
+
 Development files are under "dev" branch.
 
 Have any queries? https://motasimfoad.com/contact
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -77,3 +80,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
