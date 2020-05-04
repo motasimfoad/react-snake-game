@@ -26,8 +26,9 @@ function SnakeCharmers() {
   const score= useScore()
   return (
     <div>
+      < br />
         <h1>
-          Best Snake Charmars 😜 
+        &#10027; Best Snake Trainers &#10027;
         </h1>
         <div >
         <Table className="table" variant="light" >

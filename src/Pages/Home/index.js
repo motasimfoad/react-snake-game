@@ -200,10 +200,10 @@ const App = () => {
                 <meta name="description" content="Classical Retro snake game built using ReactJS" />
             </Helmet>
       <Row>
-      <Col xl={7}>
-        <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
-          < br />
-          <div className="game-board">
+      <Col role="button" tabIndex="0" onKeyDown={e => moveSnake(e)} xl={7}>
+        <div className="leftContainer" >
+         <div className="game-board">
+         < br />
           <h1>Classic Snake Game</h1>
               <div className="canvasContainer">
                 <canvas
@@ -217,9 +217,9 @@ const App = () => {
               </div>
               <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
                 <Button variant="outline-dark" onClick={startGame}>START</Button>
+                < br />
+                <a href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
           </div>
-         
-          
         </div>
       </Col>
       <Col xl={5}>
