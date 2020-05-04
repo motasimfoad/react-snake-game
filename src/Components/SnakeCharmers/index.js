@@ -19,7 +19,7 @@ function useScore(){
       setScore(newScore);
     })
   }, [])
- return score;
+ return score.slice(0,10);;
 }
 
 function SnakeCharmers() {

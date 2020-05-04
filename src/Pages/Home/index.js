@@ -15,13 +15,13 @@ import {
   Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
-import mp3File from '../../Assets/Audio/bite.mp3';
-import go from '../../Assets/Audio/boing.mp3';
+import bite from '../../Assets/Audio/bite.mp3';
+import boing from '../../Assets/Audio/boing.mp3';
 import ReactGa from 'react-ga';
 import {Helmet} from "react-helmet";
 
-let audio = new Audio(mp3File);
-let audio2 = new Audio(go);
+let audio = new Audio(bite);
+let audio2 = new Audio(boing);
 
 ReactGa.initialize("UA-154721739-1");
 ReactGa.pageview('React Snake Screen');
@@ -51,7 +51,7 @@ const App = () => {
     const [nplayerName, setNplayerName] = useState(" ");
     const [nrememberMe, setNrememberMe] = useState("false");
    
-   const nana = () =>{
+   const postScore = () =>{
     setPlayerName(nplayerName);
     setRememberMe(nrememberMe);
     setModalShow(false);
@@ -67,7 +67,7 @@ const App = () => {
         <Modal.Header closeButton />
         <Modal.Body style={{textAlign:'center'}}>
           <h4> Your Name?</h4>
-          <Form onSubmit={nana}> 
+          <Form onSubmit={postScore}> 
             <Form.Group controlId="formBasicEmail">
               <Form.Control type="text" placeholder="Your Name" onChange={e => setNplayerName(e.target.value)}/>
             </Form.Group>
