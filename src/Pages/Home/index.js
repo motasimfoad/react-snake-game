@@ -15,7 +15,7 @@ import {
   Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
-import mp3File from '../../Assets/Audio/mkiss.mp3';
+import mp3File from '../../Assets/Audio/bite.mp3';
 import go from '../../Assets/Audio/gameOver.mp3';
 import ins1 from '../../Assets/Audio/inspiration.mp3';
 import ins2 from '../../Assets/Audio/speech.mp3';
@@ -27,10 +27,12 @@ let audio2 = new Audio(go);
 let audio3 = new Audio(ins1);
 let audio4 = new Audio(ins2);
 
+
+ReactGa.initialize("UA-154721739-1");
+ReactGa.pageview('React Snake Screen');
+
 const App = () => {
 
-  ReactGa.initialize("UA-154721739-1");
-  ReactGa.pageview('React Snake Screen');
 
   const canvasRef = useRef();
   const [snake, setSnake] = useState(SNAKE_START);
