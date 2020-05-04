@@ -28,6 +28,10 @@ let audio3 = new Audio(ins1);
 let audio4 = new Audio(ins2);
 
 const App = () => {
+
+  ReactGa.initialize("UA-154721739-1");
+  ReactGa.pageview('React Snake Screen');
+
   const canvasRef = useRef();
   const [snake, setSnake] = useState(SNAKE_START);
   const [apple, setApple] = useState(APPLE_START);
@@ -40,10 +44,7 @@ const App = () => {
 
   useInterval(() => gameLoop(), speed);
   
-  ReactGa.initialize("UA-154721739-1");
-  ReactGa.pageview('Home Screen');
-
-  const resultGenerator = () =>{
+ const resultGenerator = () =>{
     firebase.firestore().collection('ScoreBoard').add({
       mame: playerName,
       score: snake.length
@@ -210,9 +211,9 @@ const App = () => {
     <Container className = "App" fluid>
            <Helmet>
                 <meta charSet="utf-8" />
-                <title>Classical Snake Game by Motasim Foad</title>
-                <link rel="canonical" href="http://motasimfoad.com/game/snake" />
-                <meta name="description" content="Motasim Foad | Home - Product Manager | Project Manager | Software Engineer" />
+                <title>Classical Snake Game</title>
+                <link rel="canonical" href="https://snake.motasimfoad.com/" />
+                <meta name="description" content="Classical Retro snake game built using ReactJS" />
             </Helmet>
       <Row>
       <Col xl={7}>
