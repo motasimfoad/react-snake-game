@@ -19,7 +19,7 @@ function useScore(){
       setScore(newScore);
     })
   }, [])
- return score.slice(0,10);;
+ return score.slice(0,7);;
 }
 
 function SnakeCharmers() {
@@ -29,19 +29,19 @@ function SnakeCharmers() {
         <h1>
           Best Snake Charmars 😜 
         </h1>
-        <div className="table">
-        <Table striped bordered hover variant="dark" >
-            <thead>
+        <div >
+        <Table className="table" variant="light" >
+            <thead >
                 <tr>
-                <th>Name</th>
-                <th>Score</th>
+                <th style={{ background: 'white',borderRight: '1px solid black' , borderBottom: '1px solid black'}}>Name</th>
+                <th style={{ background: 'white',borderBottom: '1px solid black'}}>Score</th>
                 </tr>
             </thead>
             <tbody>
               {score.map((item) =>
                 <tr key={item.id}>
-                <td>{item.mame}</td>
-                <td>{item.score}</td>
+                <td style={{ background: 'white',borderRight: '1px solid black', borderBottom: '1px solid black'}}>{item.mame}</td>
+                <td style={{ background: 'white',borderBottom: '1px solid black'}}>{item.score}</td>
                 </tr>
               )}
              </tbody>

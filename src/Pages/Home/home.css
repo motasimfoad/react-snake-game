@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Comic+Neue&display=swap');
+
 .App {
   text-align: center;
+  font-family: 'Comic Neue';
 }
 
 
 
 .leftContainer{
-  background-color: grey;
+ 
 }
 
 
 .game-board{
-  position: relative;
-  margin: 50px auto;
-  height: 500px;
-  width: 500px;
-  border: 2px solid red;
+  height: 800px;
+  width: 700px;
+  
+  text-align: center;
+  float: right;
+}
+
+.canvasContainer{
+  text-align: right;
 }
 

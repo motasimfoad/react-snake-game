@@ -185,7 +185,7 @@ const App = () => {
     const context = canvasRef.current.getContext("2d");
     context.setTransform(SCALE, 0, 0, SCALE, 0, 0);
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.fillStyle = "white";
+    context.fillStyle = "gray";
     snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1));
     context.fillStyle = "red";
     context.fillRect(apple[0], apple[1], 1, 1);
@@ -202,15 +202,24 @@ const App = () => {
       <Row>
       <Col xl={7}>
         <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
-          <canvas
-            style={{ marginTop: "50px",background: "black",border: "1px solid black" }}
-            ref={canvasRef}
-            width={`${CANVAS_SIZE[0]}px`}
-            height={`${CANVAS_SIZE[1]}px`}
-          />
-          {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
-          <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
-          <Button variant="outline-light" onClick={startGame}>START</Button>
+          < br />
+          <div className="game-board">
+          <h1>Classic Snake Game</h1>
+              <div className="canvasContainer">
+                <canvas
+                  style={{ marginTop: "10px",border: "1px solid black" }}
+                  ref={canvasRef}
+                  width={`${CANVAS_SIZE[0]}px`}
+                  height={`${CANVAS_SIZE[1]}px`}
+                />
+                {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
+               
+              </div>
+              <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
+                <Button variant="outline-dark" onClick={startGame}>START</Button>
+          </div>
+         
+          
         </div>
       </Col>
       <Col xl={5}>
