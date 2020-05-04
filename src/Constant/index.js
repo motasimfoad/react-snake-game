@@ -1,9 +1,9 @@
 const CANVAS_SIZE = [600, 600];
 const SNAKE_START = [
-  [13, 12],
-  [13, 13]
+  [20, 19],
+  [20, 20]
 ];
-const APPLE_START = [13, 7];
+const APPLE_START = [20, 15];
 const SCALE = 15;
 const SPEED = 100;
 const DIRECTIONS = {

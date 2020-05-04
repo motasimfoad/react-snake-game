@@ -60,21 +60,22 @@ const App = () => {
     return (
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton />
-        <Modal.Body style={{textAlign:'center'}}>
-          <h4> Your Name?</h4>
+        <Modal.Body className="App">
+          <br />
+          <h4> Submit Score? </h4>
+          <br />
           <Form onSubmit={postScore}> 
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Your Name" onChange={e => setNplayerName(e.target.value)}/>
+              <Form.Control type="text" placeholder="Name?" onChange={e => setNplayerName(e.target.value)}/>
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
+            {/* <Form.Group controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Save your name?" onChange={e => setNrememberMe(e.target.value)}/>
-            </Form.Group>
-            <Button variant="primary" type="submit">
+            </Form.Group> */}
+            <Button variant="outline-dark" type="submit">
               Submit
             </Button>
           </Form>
@@ -204,7 +205,7 @@ const App = () => {
         <div className="leftContainer" >
          <div className="game-board">
          < br />
-          <h1>Classic Snake Game</h1>
+          <h1 style={{marginLeft:'15%'}}>Classic Snake Game</h1>
               <div className="canvasContainer">
                 <canvas
                   style={{ marginTop: "10px",border: "1px solid black" }}
@@ -215,10 +216,10 @@ const App = () => {
                 {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
                
               </div>
-              <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
-                <Button variant="outline-dark" onClick={startGame}>START</Button>
-                < br />
-                <a href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
+              <p style={{color:'black'}}>Snake Size : <strong>{snake.length}</strong></p>
+                <Button style={{marginLeft:'14%'}} variant="outline-dark" onClick={startGame}>START</Button>
+                < br />< br />
+                <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
           </div>
         </div>
       </Col>
