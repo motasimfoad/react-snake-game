@@ -27,7 +27,7 @@ function SnakeCharmers() {
   return (
     <div>
       < br />
-        <h1>
+        <h1 style={{textAlign: 'center'}}>
         &#10027; Best Snake Trainers &#10027;
         </h1>
         <div >
@@ -35,7 +35,7 @@ function SnakeCharmers() {
             <thead >
                 <tr>
                 <th style={{ background: 'white',borderRight: '1px solid black' , borderBottom: '1px solid black'}}>Name</th>
-                <th style={{ background: 'white',borderBottom: '1px solid black'}}>Score</th>
+                <th style={{ background: 'white',borderBottom: '1px solid black'}}>Size</th>
                 </tr>
             </thead>
             <tbody>

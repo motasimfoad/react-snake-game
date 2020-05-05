@@ -10,7 +10,7 @@ import {
 } from '../../Constant';
 import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
-import SnakeCharmers from '../../Components/SnakeCharmers';
+// import SnakeCharmers from '../../Components/SnakeCharmers';
 import {
   Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
@@ -33,29 +33,23 @@ const App = () => {
   const [dir, setDir] = useState([0, -1]);
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [playerName, setPlayerName] = useState('No Name');
-  const [modalShow, setModalShow] = useState(true);
-  const [rememberMe, setRememberMe] = useState();
+  const [modalShow, setModalShow] = useState(false);
 
-  useInterval(() => gameLoop(), speed);
   
- const resultGenerator = () =>{
+  
+ const resultGenerator = (nplayerName) =>{
     firebase.firestore().collection('ScoreBoard').add({
-      mame: playerName,
+      mame: nplayerName,
       score: snake.length
     });
-   
   };
 
   const MyVerticallyCenteredModal = (props) => {
     const [nplayerName, setNplayerName] = useState(" ");
-    const [nrememberMe, setNrememberMe] = useState("false");
-   
-   const postScore = () =>{
-    setPlayerName(nplayerName);
-    setRememberMe(nrememberMe);
+    const postScore = () =>{
     setModalShow(false);
-   }
+    resultGenerator(nplayerName);
+  }
 
     return (
       <Modal
@@ -64,7 +58,7 @@ const App = () => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Body className="App">
+        <Modal.Body className="modalApp">
           <br />
           <h4> Submit Score? </h4>
           <br />
@@ -72,11 +66,11 @@ const App = () => {
             <Form.Group controlId="formBasicEmail">
               <Form.Control type="text" placeholder="Name?" onChange={e => setNplayerName(e.target.value)}/>
             </Form.Group>
-            {/* <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Save your name?" onChange={e => setNrememberMe(e.target.value)}/>
-            </Form.Group> */}
-            <Button variant="outline-dark" type="submit">
+            <Button variant="outline-dark" onClick={postScore}>
               Submit
+            </Button> &nbsp; &nbsp; &nbsp;
+            <Button variant="outline-dark" onClick={props.onHide}>
+              Close
             </Button>
           </Form>
         </Modal.Body>
@@ -88,14 +82,11 @@ const App = () => {
     setSpeed(null);
     setGameOver(true);
     audio2.play();
-    if (rememberMe === 'false') {
-      setModalShow(true);
-    }
-    resultGenerator();
+    setModalShow(true);
   };
 
   const moveSnake = ({ keyCode }) => {
-    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]) || keyCode===13 && startGame();
+    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]);
   }
     
 
@@ -108,8 +99,10 @@ const App = () => {
       piece[0] < 0 ||
       piece[1] * SCALE >= CANVAS_SIZE[1] ||
       piece[1] < 0
-    )
+    ){
       return true;
+    }
+      
 
     for (const segment of snk) {
       if (piece[0] === segment[0] && piece[1] === segment[1]) return true;
@@ -137,41 +130,44 @@ const App = () => {
     if (checkCollision(newSnakeHead)) endGame();
     if (!checkAppleCollision(snakeCopy)) snakeCopy.pop();
     setSnake(snakeCopy);
-    switch (snake.length) {
-            case 5:
-            setSpeed(95);
-            break;
-            case 10:
-            setSpeed(90);
-            break;
-            case 15:
-            setSpeed(85);
-            break;
-            case 20:
-            setSpeed(80);
-            break;
-            case 25:
-            setSpeed(75);
-            break;
-            case 30:
-            setSpeed(70);
-            break;
-            case 40:
-            setSpeed(65);
-            break;
-            case 45:
-            setSpeed(63);
-            break;
-            case 50:
-            setSpeed(60);
-            break;
-            case 60:
-            setSpeed(50);
-            break;
-            case 70:
-            setSpeed(40);
-            break;
+    if (!gameOver){
+      switch (snake.length) {
+        case 5:
+        setSpeed(95);
+        break;
+        case 10:
+        setSpeed(90);
+        break;
+        case 15:
+        setSpeed(85);
+        break;
+        case 20:
+        setSpeed(80);
+        break;
+        case 25:
+        setSpeed(75);
+        break;
+        case 30:
+        setSpeed(70);
+        break;
+        case 40:
+        setSpeed(65);
+        break;
+        case 45:
+        setSpeed(63);
+        break;
+        case 50:
+        setSpeed(60);
+        break;
+        case 60:
+        setSpeed(50);
+        break;
+        case 70:
+        setSpeed(40);
+        break;
+}
     }
+    
   };
 
   const startGame = () => {
@@ -192,6 +188,8 @@ const App = () => {
     context.fillRect(apple[0], apple[1], 1, 1);
   }, [snake, apple, gameOver]);
 
+  useInterval(() => gameLoop(), speed);
+
   return (
     <Container className = "App" fluid>
            <Helmet>
@@ -202,10 +200,11 @@ const App = () => {
             </Helmet>
       <Row>
       <Col role="button" tabIndex="0" onKeyDown={e => moveSnake(e)} xl={7}>
-        <div className="leftContainer" >
+        <div  >
          <div className="game-board">
          < br />
-          <h1 style={{marginLeft:'15%'}}>Classic Snake Game</h1>
+         {gameOver && <h1 style={{marginLeft:'15%', color:'orange'}}>GAME OVER!</h1> ||  <h1 style={{marginLeft:'15%'}}>Classic Snake Game</h1>}
+         
               <div className="canvasContainer">
                 <canvas
                   style={{ marginTop: "10px",border: "1px solid black" }}
@@ -213,19 +212,24 @@ const App = () => {
                   width={`${CANVAS_SIZE[0]}px`}
                   height={`${CANVAS_SIZE[1]}px`}
                 />
-                {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
-               
               </div>
-              <p style={{color:'black'}}>Snake Size : <strong>{snake.length}</strong></p>
-                <Button style={{marginLeft:'14%'}} variant="outline-dark" onClick={startGame}>START</Button>
-                < br />< br />
-                <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
+              <div style={{width:'100%'}}> 
+                <div style={{width:'50%', float:'left', textAlign: 'right'}}>
+                <Button style={{marginLeft:'14%', width:'50%'}} variant="outline-dark" onClick={startGame}>START</Button>
+                </div>
+                <div style={{width:'50%', float:'right', textAlign: 'left'}}>
+                <p style={{color:'black', fontSize:'20px', paddingLeft:'25%', paddingTop: '2%'}}>Snake Size : <strong>{snake.length}</strong></p>
+                </div>
+                < br />< br /> < br />< br />
+              </div>
+               
+               <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
           </div>
         </div>
       </Col>
       <Col xl={5}>
         <Instructions />
-        <SnakeCharmers />
+        {/* <SnakeCharmers /> */}
       </Col>
       </Row>
       <MyVerticallyCenteredModal
