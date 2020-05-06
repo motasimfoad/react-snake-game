@@ -1,25 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInterval } from '../../HelperFunction';
-import {
-  CANVAS_SIZE,
-  SNAKE_START,
-  APPLE_START,
-  SCALE,
-  SPEED,
-  DIRECTIONS
-} from '../../Constant';
+import { CANVAS_SIZE, SNAKE_START, APPLE_START, SCALE, SPEED, DIRECTIONS} from '../../Constant';
 import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
 import SnakeCharmers from '../../Components/SnakeCharmers';
-import {
-  Button, Row, Col, Container, Modal, Form
-} from 'react-bootstrap';
+import { Button, Row, Col, Container, Modal, Form, Toast } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
 import bite from '../../Assets/Audio/bite.mp3';
 import boing from '../../Assets/Audio/boing.mp3';
 import ReactGa from 'react-ga';
 import {Helmet} from 'react-helmet';
-import {Toast} from 'react-bootstrap';
 
 let audio = new Audio(bite);
 let audio2 = new Audio(boing);
@@ -37,8 +27,6 @@ const App = () => {
   const [modalShow, setModalShow] = useState(false);
   const [toastShow, setToastShow] = useState(false);
 
-  
-  
  const resultGenerator = (nplayerName) =>{
     firebase.firestore().collection('ScoreBoard').add({
       mame: nplayerName,
@@ -46,7 +34,7 @@ const App = () => {
     });
   };
 
-  const MyVerticallyCenteredModal = (props) => {
+ const MyVerticallyCenteredModal = (props) => {
     const [nplayerName, setNplayerName] = useState(" ");
     const postScore = () =>{
     setModalShow(false);
