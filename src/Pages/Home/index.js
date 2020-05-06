@@ -262,7 +262,7 @@ const App = () => {
                 < br />< br /> < br />< br />
               </div>
                
-               <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
+               <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank" rel="noopener noreferrer">(C) Motasim Foad</a>
           </div>
           <Toast style={{
               position: 'absolute',
