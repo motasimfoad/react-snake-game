@@ -26,7 +26,7 @@ function SnakeCharmers() {
   const score= useScore()
   return (
     <div>
-      < br />
+      
         <h1 style={{textAlign: 'center'}}>
         &#10027; Best Snake Trainers &#10027;
         </h1>

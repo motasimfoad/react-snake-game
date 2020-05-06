@@ -10,7 +10,7 @@ import {
 } from '../../Constant';
 import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
-// import SnakeCharmers from '../../Components/SnakeCharmers';
+import SnakeCharmers from '../../Components/SnakeCharmers';
 import {
   Button, Row, Col, Container, Modal, Form
 } from 'react-bootstrap';
@@ -18,7 +18,8 @@ import firebase from '../../Firebase/Config';
 import bite from '../../Assets/Audio/bite.mp3';
 import boing from '../../Assets/Audio/boing.mp3';
 import ReactGa from 'react-ga';
-import {Helmet} from "react-helmet";
+import {Helmet} from 'react-helmet';
+import {Toast} from 'react-bootstrap';
 
 let audio = new Audio(bite);
 let audio2 = new Audio(boing);
@@ -34,6 +35,7 @@ const App = () => {
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [toastShow, setToastShow] = useState(false);
 
   
   
@@ -99,11 +101,9 @@ const App = () => {
       piece[0] < 0 ||
       piece[1] * SCALE >= CANVAS_SIZE[1] ||
       piece[1] < 0
-    ){
-      return true;
-    }
-      
-
+    )
+    return true;
+    
     for (const segment of snk) {
       if (piece[0] === segment[0] && piece[1] === segment[1]) return true;
     }
@@ -134,37 +134,88 @@ const App = () => {
       switch (snake.length) {
         case 5:
         setSpeed(95);
+        setToastShow(true);
+        break;
+        case 6:
+        setToastShow(false);
         break;
         case 10:
         setSpeed(90);
+        setToastShow(true);
+        break;
+        case 11:
+        setToastShow(false);
         break;
         case 15:
         setSpeed(85);
+        setToastShow(true);
+        break;
+        case 16:
+        setToastShow(false);
         break;
         case 20:
         setSpeed(80);
+        setToastShow(true);
+        break;
+        case 21:
+        setToastShow(false);
         break;
         case 25:
         setSpeed(75);
+        setToastShow(true);
+        break;
+        case 26:
+        setToastShow(false);
         break;
         case 30:
         setSpeed(70);
+        setToastShow(true);
+        break;
+        case 31:
+        setToastShow(false);
         break;
         case 40:
         setSpeed(65);
+        setToastShow(true);
+        break;
+        case 41:
+        setToastShow(false);
         break;
         case 45:
         setSpeed(63);
+        setToastShow(true);
+        break;
+        case 46:
+        setToastShow(false);
         break;
         case 50:
         setSpeed(60);
+        setToastShow(true);
+        break;
+        case 51:
+        setToastShow(false);
         break;
         case 60:
         setSpeed(50);
+        setToastShow(true);
+        break;
+        case 61:
+        setToastShow(false);
         break;
         case 70:
         setSpeed(40);
+        setToastShow(true);
         break;
+        case 71:
+        setToastShow(false);
+        break;
+        case 80:
+        setSpeed(30);
+        setToastShow(true);
+        break;
+        case 81:
+        setToastShow(false);
+        break;     
 }
     }
     
@@ -207,7 +258,7 @@ const App = () => {
          
               <div className="canvasContainer">
                 <canvas
-                  style={{ marginTop: "10px",border: "1px solid black" }}
+                  style={{ marginTop: "10px",border: "1px dotted black" }}
                   ref={canvasRef}
                   width={`${CANVAS_SIZE[0]}px`}
                   height={`${CANVAS_SIZE[1]}px`}
@@ -225,11 +276,21 @@ const App = () => {
                
                <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank">(C) Motasim Foad</a>
           </div>
+          <Toast style={{
+              position: 'absolute',
+              bottom: 65,
+              right: 15,
+              fontSize: '17px',
+              color: 'red'
+            }} 
+            show={toastShow}>
+            <strong> Speeding Up !! </strong>
+          </Toast>
         </div>
       </Col>
       <Col xl={5}>
         <Instructions />
-        {/* <SnakeCharmers /> */}
+        <SnakeCharmers />
       </Col>
       </Row>
       <MyVerticallyCenteredModal

@@ -7,7 +7,7 @@ function Instructions() {
         <h1 style={{textAlign: 'center'}}>
             Instructions !!
         </h1>
-        <p style={{fontSize: '18px', fontWeight: '500', textAlign:'left'}}>
+        <p style={{fontSize: '18px', fontWeight: '500', textAlign:'left', paddingLeft: '10%'}}>
             1. Use keyboard (⌨) <strong>ARROW</strong> keys to control your snake <br />
             2. Avoid <strong>crashing</strong> in walls 📓<br />
             3. 🏄 Speed of snake will <strong>increase</strong> with your <strong>score</strong> <br />
