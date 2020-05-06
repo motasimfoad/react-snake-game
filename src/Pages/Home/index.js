@@ -212,6 +212,7 @@ const App = () => {
   const startGame = () => {
     setSnake(SNAKE_START);
     setApple(APPLE_START);
+    setToastShow(false);
     setDir([0, -1]);
     setSpeed(SPEED);
     setGameOver(false);
