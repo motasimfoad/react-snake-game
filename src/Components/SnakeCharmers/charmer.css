@@ -1,4 +1,6 @@
 .table {
-   overflow: auto;
-   height: 500px;
+   overflow: hidden;
+   height: 400px;
+   max-width: 500px;
+   margin: 0 auto;
 }

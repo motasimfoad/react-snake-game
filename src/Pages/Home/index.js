@@ -1,31 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInterval } from '../../HelperFunction';
-import {
-  CANVAS_SIZE,
-  SNAKE_START,
-  APPLE_START,
-  SCALE,
-  SPEED,
-  DIRECTIONS
-} from '../../Constant';
+import { CANVAS_SIZE, SNAKE_START, APPLE_START, SCALE, SPEED, DIRECTIONS} from '../../Constant';
 import '../Home/home.css';
 import Instructions from '../../Components/Instructions';
 import SnakeCharmers from '../../Components/SnakeCharmers';
-import {
-  Button, Row, Col, Container, Modal, Form
-} from 'react-bootstrap';
+import { Button, Row, Col, Container, Modal, Form, Toast } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
-import mp3File from '../../Assets/Audio/mkiss.mp3';
-import go from '../../Assets/Audio/gameOver.mp3';
-import ins1 from '../../Assets/Audio/inspiration.mp3';
-import ins2 from '../../Assets/Audio/speech.mp3';
+import bite from '../../Assets/Audio/bite.mp3';
+import boing from '../../Assets/Audio/boing.mp3';
 import ReactGa from 'react-ga';
-import {Helmet} from "react-helmet";
+import {Helmet} from 'react-helmet';
 
-let audio = new Audio(mp3File);
-let audio2 = new Audio(go);
-let audio3 = new Audio(ins1);
-let audio4 = new Audio(ins2);
+let audio = new Audio(bite);
+let audio2 = new Audio(boing);
+
+ReactGa.initialize("UA-154721739-1");
+ReactGa.pageview('React Snake Screen');
 
 const App = () => {
   const canvasRef = useRef();
@@ -34,52 +24,43 @@ const App = () => {
   const [dir, setDir] = useState([0, -1]);
   const [speed, setSpeed] = useState(null);
   const [gameOver, setGameOver] = useState(false);
-  const [playerName, setPlayerName] = useState('No Name');
-  const [modalShow, setModalShow] = useState(true);
-  const [rememberMe, setRememberMe] = useState();
+  const [modalShow, setModalShow] = useState(false);
+  const [toastShow, setToastShow] = useState(false);
 
-  useInterval(() => gameLoop(), speed);
-  
-  ReactGa.initialize("UA-154721739-1");
-  ReactGa.pageview('Home Screen');
-
-  const resultGenerator = () =>{
+ const resultGenerator = (nplayerName) =>{
     firebase.firestore().collection('ScoreBoard').add({
-      mame: playerName,
+      mame: nplayerName,
       score: snake.length
     });
-   
   };
 
-  const MyVerticallyCenteredModal = (props) => {
+ const MyVerticallyCenteredModal = (props) => {
     const [nplayerName, setNplayerName] = useState(" ");
-    const [nrememberMe, setNrememberMe] = useState("false");
-   
-   const nana = () =>{
-    setPlayerName(nplayerName);
-    setRememberMe(nrememberMe);
+    const postScore = () =>{
     setModalShow(false);
-   }
+    resultGenerator(nplayerName);
+  }
 
     return (
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton />
-        <Modal.Body style={{textAlign:'center'}}>
-          <h4> Your Name?</h4>
-          <Form onSubmit={nana}> 
+        <Modal.Body className="modalApp">
+          <br />
+          <h4> Submit Score? </h4>
+          <br />
+          <Form onSubmit={postScore}> 
             <Form.Group controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Your Name" onChange={e => setNplayerName(e.target.value)}/>
+              <Form.Control type="text" placeholder="Name?" onChange={e => setNplayerName(e.target.value)}/>
             </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Save your name?" onChange={e => setNrememberMe(e.target.value)}/>
-            </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="outline-dark" onClick={postScore}>
               Submit
+            </Button> &nbsp; &nbsp; &nbsp;
+            <Button variant="outline-dark" onClick={props.onHide}>
+              Close
             </Button>
           </Form>
         </Modal.Body>
@@ -91,14 +72,11 @@ const App = () => {
     setSpeed(null);
     setGameOver(true);
     audio2.play();
-    if (rememberMe === 'false') {
-      setModalShow(true);
-    }
-    resultGenerator();
+    setModalShow(true);
   };
 
   const moveSnake = ({ keyCode }) => {
-    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]) || keyCode===13 && startGame();
+    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]) || keyCode===13 && startGame();;
   }
     
 
@@ -112,8 +90,8 @@ const App = () => {
       piece[1] * SCALE >= CANVAS_SIZE[1] ||
       piece[1] < 0
     )
-      return true;
-
+    return true;
+    
     for (const segment of snk) {
       if (piece[0] === segment[0] && piece[1] === segment[1]) return true;
     }
@@ -140,57 +118,101 @@ const App = () => {
     if (checkCollision(newSnakeHead)) endGame();
     if (!checkAppleCollision(snakeCopy)) snakeCopy.pop();
     setSnake(snakeCopy);
-    switch (snake.length) {
-            case 5:
-            setSpeed(95);
-            audio3.play();
-            break;
-            case 10:
-            setSpeed(90);
-            audio4.play();
-            break;
-            case 15:
-            setSpeed(85);
-            audio3.play();
-            break;
-            case 20:
-            setSpeed(80);
-            audio4.play();
-            break;
-            case 25:
-            setSpeed(75);
-            audio3.play();
-            break;
-            case 30:
-            setSpeed(70);
-            audio4.play();
-            break;
-            case 40:
-            setSpeed(65);
-            audio3.play();
-            break;
-            case 45:
-            setSpeed(63);
-            audio4.play();
-            break;
-            case 50:
-            setSpeed(60);
-            audio3.play();
-            break;
-            case 60:
-            setSpeed(50);
-            audio4.play();
-            break;
-            case 70:
-            setSpeed(40);
-            audio3.play();
-            break;
+    if (!gameOver){
+      switch (snake.length) {
+        case 5:
+        setSpeed(95);
+        setToastShow(true);
+        break;
+        case 6:
+        setToastShow(false);
+        break;
+        case 10:
+        setSpeed(90);
+        setToastShow(true);
+        break;
+        case 11:
+        setToastShow(false);
+        break;
+        case 15:
+        setSpeed(85);
+        setToastShow(true);
+        break;
+        case 16:
+        setToastShow(false);
+        break;
+        case 20:
+        setSpeed(80);
+        setToastShow(true);
+        break;
+        case 21:
+        setToastShow(false);
+        break;
+        case 25:
+        setSpeed(75);
+        setToastShow(true);
+        break;
+        case 26:
+        setToastShow(false);
+        break;
+        case 30:
+        setSpeed(70);
+        setToastShow(true);
+        break;
+        case 31:
+        setToastShow(false);
+        break;
+        case 40:
+        setSpeed(65);
+        setToastShow(true);
+        break;
+        case 41:
+        setToastShow(false);
+        break;
+        case 45:
+        setSpeed(63);
+        setToastShow(true);
+        break;
+        case 46:
+        setToastShow(false);
+        break;
+        case 50:
+        setSpeed(60);
+        setToastShow(true);
+        break;
+        case 51:
+        setToastShow(false);
+        break;
+        case 60:
+        setSpeed(50);
+        setToastShow(true);
+        break;
+        case 61:
+        setToastShow(false);
+        break;
+        case 70:
+        setSpeed(40);
+        setToastShow(true);
+        break;
+        case 71:
+        setToastShow(false);
+        break;
+        case 80:
+        setSpeed(30);
+        setToastShow(true);
+        break;
+        case 81:
+        setToastShow(false);
+        break;     
+}
     }
+    
   };
 
   const startGame = () => {
     setSnake(SNAKE_START);
     setApple(APPLE_START);
+    setToastShow(false);
     setDir([0, -1]);
     setSpeed(SPEED);
     setGameOver(false);
@@ -200,32 +222,59 @@ const App = () => {
     const context = canvasRef.current.getContext("2d");
     context.setTransform(SCALE, 0, 0, SCALE, 0, 0);
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.fillStyle = "white";
+    context.fillStyle = "gray";
     snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1));
     context.fillStyle = "red";
     context.fillRect(apple[0], apple[1], 1, 1);
   }, [snake, apple, gameOver]);
 
+  useInterval(() => gameLoop(), speed);
+
   return (
     <Container className = "App" fluid>
            <Helmet>
                 <meta charSet="utf-8" />
-                <title>Classical Snake Game by Motasim Foad</title>
-                <link rel="canonical" href="http://motasimfoad.com/game/snake" />
-                <meta name="description" content="Motasim Foad | Home - Product Manager | Project Manager | Software Engineer" />
+                <title>Classical Snake Game</title>
+                <link rel="canonical" href="https://snake.motasimfoad.com/" />
+                <meta name="description" content="Classical Retro snake game built using ReactJS" />
             </Helmet>
       <Row>
-      <Col xl={7}>
-        <div className="leftContainer" role="button" tabIndex="0" onKeyDown={e => moveSnake(e)}>
-          <canvas
-            style={{ marginTop: "50px",background: "black",border: "1px solid black" }}
-            ref={canvasRef}
-            width={`${CANVAS_SIZE[0]}px`}
-            height={`${CANVAS_SIZE[1]}px`}
-          />
-          {gameOver && <h4 style={{color:'orange'}}>GAME OVER!</h4>}
-          <p style={{color:'white'}}>Snake Size : <strong>{snake.length}</strong></p>
-          <Button variant="outline-light" onClick={startGame}>START</Button>
+      <Col role="button" tabIndex="0" onKeyDown={e => moveSnake(e)} xl={7}>
+        <div  >
+         <div className="game-board">
+         < br />
+         {gameOver && <h1 style={{marginLeft:'15%', color:'orange'}}>GAME OVER!</h1> ||  <h1 style={{marginLeft:'15%'}}>Classic Snake Game</h1>}
+         
+              <div className="canvasContainer">
+                <canvas
+                  style={{ marginTop: "10px",border: "1px dotted black" }}
+                  ref={canvasRef}
+                  width={`${CANVAS_SIZE[0]}px`}
+                  height={`${CANVAS_SIZE[1]}px`}
+                />
+              </div>
+              <div style={{width:'100%'}}> 
+                <div style={{width:'50%', float:'left', textAlign: 'right'}}>
+                <Button style={{marginLeft:'14%', width:'50%'}} variant="outline-dark" onClick={startGame}>START</Button>
+                </div>
+                <div style={{width:'50%', float:'right', textAlign: 'left'}}>
+                <p style={{color:'black', fontSize:'20px', paddingLeft:'25%', paddingTop: '2%'}}>Snake Size : <strong>{snake.length}</strong></p>
+                </div>
+                < br />< br /> < br />< br />
+              </div>
+               
+               <a style={{paddingLeft:'50%'}} href="https://motasimfoad.com" target="_blank" rel="noopener noreferrer">(C) Motasim Foad</a>
+          </div>
+          <Toast style={{
+              position: 'absolute',
+              bottom: 65,
+              right: 15,
+              fontSize: '17px',
+              color: 'red'
+            }} 
+            show={toastShow}>
+            <strong> Speeding Up !! </strong>
+          </Toast>
         </div>
       </Col>
       <Col xl={5}>
