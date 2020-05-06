@@ -2,7 +2,7 @@
 
 Simple web version of classic snake game using ReactJS, Bootstrap, Firebase
 
-Live Demo : https://game.motasimfoad.com
+Live Demo : https://snake.motasimfoad.com
 
 Snake logic was built following this tutorial : https://www.youtube.com/c/weibenfalk
 
