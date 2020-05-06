@@ -76,7 +76,7 @@ const App = () => {
   };
 
   const moveSnake = ({ keyCode }) => {
-    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]);
+    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode]) || keyCode===13 && startGame();;
   }
     
 
