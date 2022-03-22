@@ -6,10 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
 
   const [connected, setConnected] = useState(false)
+  const [address, setAddress] = useState(null)
 
   return (
     <>
-      {connected ? <Home /> : <Connect setConnected={setConnected} />}
+      {connected ? <Home address={address} /> : <Connect setAddress={setAddress} setConnected={setConnected} />}
     </>
   );
 }

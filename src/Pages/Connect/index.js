@@ -2,19 +2,23 @@
 import React from 'react'
 import "./connect.css"
 import Web3Modal from "web3modal"
+import { ethers } from "ethers"
 
 const connectionConfig = {
     cacheProvider: true,
     network: "rinkeby",
 }
 
-function Connect({ setConnected }) {
+function Connect({ setAddress, setConnected }) {
 
     const connect = async () => {
         const web3Modal = new Web3Modal(connectionConfig)
 
         try {
-            const provider = await web3Modal.connect();
+            const connection = await web3Modal.connect();
+            const provider = new ethers.providers.Web3Provider(connection)
+            const address = await provider.getSigner().getAddress()
+            setAddress(address)
             setConnected(true)
         } catch (err) {
             console.log(err);
