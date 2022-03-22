@@ -5,11 +5,10 @@ import Web3Modal from "web3modal"
 import { ethers } from "ethers"
 
 const connectionConfig = {
-    cacheProvider: true,
     network: "rinkeby",
 }
 
-function Connect({ setAddress, setConnected }) {
+function Connect({ setProvider, setAddress, setConnected }) {
 
     const connect = async () => {
         const web3Modal = new Web3Modal(connectionConfig)
@@ -18,6 +17,7 @@ function Connect({ setAddress, setConnected }) {
             const connection = await web3Modal.connect();
             const provider = new ethers.providers.Web3Provider(connection)
             const address = await provider.getSigner().getAddress()
+            setProvider(connection)
             setAddress(address)
             setConnected(true)
         } catch (err) {

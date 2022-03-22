@@ -38,7 +38,6 @@ const App = ({ address }) => {
     const [nplayerName, setNplayerName] = useState(props.address);
     const postScore = async () => {
 
-      console.log(props.address)
       setNplayerName(props.address)
       setModalShow(false);
       resultGenerator(props.address);
