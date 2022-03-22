@@ -15,7 +15,8 @@
     "react-ga": "^2.7.0",
     "react-helmet": "^6.0.0",
     "react-scripts": "3.4.1",
-    "readdirp": "^3.6.0"
+    "readdirp": "^3.6.0",
+    "web3modal": "^1.9.5"
   },
   "scripts": {
     "start": "react-scripts start",

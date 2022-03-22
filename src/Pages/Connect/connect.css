@@ -1,5 +1,19 @@
 .connect__container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .connect__button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.connect__button:hover {
+  background-color: rgb(63, 63, 63);
 }

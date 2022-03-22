@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      {connected ? <Home /> : <Connect />}
+      {connected ? <Home /> : <Connect setConnected={setConnected} />}
     </>
   );
 }
