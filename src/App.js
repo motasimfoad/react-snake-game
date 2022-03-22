@@ -1,10 +1,16 @@
-import React from 'react';
-import Home from '../src/Pages/Home';
+import React, { useState } from 'react';
+import Home from './Pages/Home';
+import Connect from "./Pages/Connect"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+
+  const [connected, setConnected] = useState(false)
+
   return (
-   <Home />
+    <>
+      {connected ? <Home /> : <Connect />}
+    </>
   );
 }
 

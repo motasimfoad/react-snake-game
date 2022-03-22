@@ -2,6 +2,7 @@
   "name": "snake",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -13,7 +14,8 @@
     "react-dom": "^16.13.1",
     "react-ga": "^2.7.0",
     "react-helmet": "^6.0.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "readdirp": "^3.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
