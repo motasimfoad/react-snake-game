@@ -10,6 +10,8 @@ import bite from '../../Assets/Audio/bite.mp3';
 import boing from '../../Assets/Audio/boing.mp3';
 import ReactGa from 'react-ga';
 import { Helmet } from 'react-helmet';
+import Abi from "../../Abis/contract"
+import { ethers } from "ethers"
 
 let audio = new Audio(bite);
 let audio2 = new Audio(boing);
@@ -17,7 +19,7 @@ let audio2 = new Audio(boing);
 ReactGa.initialize("UA-154721739-1");
 ReactGa.pageview('React Snake Screen');
 
-const App = ({ address }) => {
+const App = ({ address, provider }) => {
   const canvasRef = useRef();
   const [snake, setSnake] = useState(SNAKE_START);
   const [apple, setApple] = useState(APPLE_START);
@@ -26,6 +28,16 @@ const App = ({ address }) => {
   const [gameOver, setGameOver] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [toastShow, setToastShow] = useState(false);
+  const [winner, setWinner] = useState("")
+
+  useEffect(() => {
+
+    (async () => {
+      const gameContr = new ethers.Contract("0x0D543E36Ec5856725aebf7bAF379F2Ae433D499d", Abi)
+      setWinner(await gameContr.connect(provider).HIGH_SCORE_HOLDER())
+    })()
+
+  }, [modalShow])
 
   const resultGenerator = (nplayerName) => {
     firebase.firestore().collection('ScoreBoard').add({
@@ -285,6 +297,7 @@ const App = ({ address }) => {
           <SnakeCharmers />
         </Col>
       </Row>
+      <strong>Winner : {winner}</strong>
       <MyVerticallyCenteredModal
         address={address}
         show={modalShow}

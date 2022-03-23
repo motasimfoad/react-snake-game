@@ -17,7 +17,7 @@ function Connect({ setProvider, setAddress, setConnected }) {
             const connection = await web3Modal.connect();
             const provider = new ethers.providers.Web3Provider(connection)
             const address = await provider.getSigner().getAddress()
-            setProvider(connection)
+            setProvider(provider)
             setAddress(address)
             setConnected(true)
         } catch (err) {
@@ -32,5 +32,4 @@ function Connect({ setProvider, setAddress, setConnected }) {
     )
 }
 
-export default
-    Connect
+export default Connect
