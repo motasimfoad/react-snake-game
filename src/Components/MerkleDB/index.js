@@ -99,7 +99,6 @@ export function Web3Initialization(props) {
     const [web3, setWeb3] = useState(new ethers.providers.Web3Provider(window.ethereum));
     const [gameMerkleDB, setGameMerkleDB] = useState(new ethers.Contract(GameMerkleDBAddress, ABIMerkleDB.abi, web3));
     const [gameRewards, setGameRewards] = useState(new ethers.Contract(SnakeGameRewardsAddress, ABISnakeGameRewards.abi, web3));
-    const [firebasePayload, setFirebasePayload] = useState();
     // const [merkleLeaves, setMerkleLeaves] = useState();
     const [merkleIPFSHash, setMerkleIPFSHash] = useState("QmTsRrokQy5tK6H6x9sJYYJdrEtE8yfkJGMLTEDu1ZNWj5");
 
@@ -127,6 +126,9 @@ export function Web3Initialization(props) {
 
         //       console.log('Getting merkle leaves');
         //       getMerkleLeaves(newIPFSHash).then(leaves => setMerkleLeaves(leaves));
+
+
+                // TODO - listener for NFT holder xfer
         //     }, props)
         // }
 
@@ -138,13 +140,13 @@ export function Web3Initialization(props) {
     // For future additions -> Allow setting type of component
     return (
         <div>
-          <ClaimNFTButton firebasePayload={firebasePayload} gameRewardContract={gameRewards} web3={web3} />
+          <ClaimNFTButton gameRewardContract={gameRewards} web3={web3} />
         </div>
     );
 
 }
 
-async function claimHighScoreNFT(props, leaf, proof) {
+async function claimHighScoreNFT(gameRewardContract, signer, leaf, proof) {
 
   // Prep submission
   leaf = '0x31';
@@ -155,65 +157,71 @@ async function claimHighScoreNFT(props, leaf, proof) {
   console.log(proof);
 
   // Call contract  
-  const signer = props.web3.getSigner();
-  const contractWithSigner = props.gameRewardContract.connect(signer);
+  const contractWithSigner = gameRewardContract.connect(signer);
   await contractWithSigner.claimHighScoreToken(leaf, proof, { gasLimit: 100_000 });
 }
 
 export function ClaimNFTButton(props) {
 
     const [newHighScore, setNewHighScore] = useState(false);
-    const [highScore, setHighScore] = useState(0);
+    const [highScore, setHighScore] = useState();
     const [proof, setProof] = useState();
     const [leaf, setLeaf] = useState();
+    const [currentNFTOwner, setCurrentNFTOwner] = useState()
+    const [signer, setSigner] = useState(props.web3.getSigner());
+    const [signerAddress, setSignerAddress] = useState();
 
     useEffect(() => {
-        // Override our merkle proof
-        const hash = (v) => Buffer.from(keccak256.encode(v)).toString('hex')
-        setLeaf(hash('1'));
-        setProof(getMerkleProof());
-
         // Auto fetch / update top score
         firebase
         .firestore()
         .collection('ScoreBoard')
         .orderBy('score', 'desc')
         .limit(1)
-        .onSnapshot((snapshot) => setHighScore(snapshot.docs[0])); 
+        .onSnapshot((snapshot) => setHighScore(snapshot.docs[0].data()));
     }, []);
+
+    useEffect(() => {
+        // Set signer
+        signer.getAddress().then(v => setSignerAddress(v));
+
+        // Grab the latest NFT holder  
+        props.gameRewardContract.connect(signer)
+            .HIGH_SCORE_HOLDER().then(v => setCurrentNFTOwner(v));
+
+    }, [props.web3, signer, props.gameRewardContract]);
   
     useEffect(() => {
-      // If we have a new high score, save it 
-      console.log('Checking state')
+      // If we have a new high score, save it
       if (
-        Number(props.playerScore.score) > 1 /*score[0]?.score*/ &&
-        Number(props.playerScore.score) > highScoreLocal
+        typeof highScore !== 'undefined' &&
+        highScore.name === signerAddress &&
+        currentNFTOwner !== signerAddress
       ) {
-        console.log("Setting local high score!");
-        setHighScoreLocal(props.playerScore.score);
-      }
-  
-      console.log(`Local high score: ${JSON.stringify(props.playerScore)}`);
-    
-      // Any time state updates (new events), try merkle proof
-      if (highScoreLocal !== 0) 
+        console.log("New high score achieved!!");
+        setNewHighScore(true);
         try {
-          // const scoreEncoded = cbor.encode(toSortedKeysObject(props.playerScore)).toString('hex');
+          // Attempt to build us a merkle proof
           console.log('getting encoded');
-          const encoded = getEncodedLeaf('score', highScoreLocal, props.leaves);
-          setScoreEncoded(encoded);
-          console.log(`Encoded; ${encoded}`);
-          console.log(encoded);
-          setProof(getMerkleProof(encoded, props.leaves));
-          setNewHighScore(true);
+          setLeaf(cbor.encode(toSortedKeysObject(highScore)).toString('hex'));
+          setProof(getMerkleProof());
+
+          // TEMP override our merkle proof
+          const hash = (v) => Buffer.from(keccak256.encode(v)).toString('hex')
+          setLeaf(hash('1'));
+          setProof(getMerkleProof());
+
         } catch (e) {
           console.log('Merkle proof unable to generate! ' + e)
         }
-    }, [props]);
+      }
+    }, [highScore, currentNFTOwner, signerAddress]);
   
     return (
-        <div>
-            <Button style={{ marginLeft: '25%', width: '50%' }} disabled={newHighScore} variant="outline-dark" onClick={() => claimHighScoreNFT(props, leaf, proof)}>CLAIM TOP SCORE NFT</Button>
+        <div style={{ marginLeft: '25%', width: '50%', textAlign: "center" }}>
+            <Button  disabled={!newHighScore} variant="outline-dark" onClick={() => claimHighScoreNFT(props.gameRewardContract, signer, leaf, proof)}>CLAIM TOP SCORE NFT</Button>
+            <br /><br />
+            <strong>Current Holder : {currentNFTOwner}</strong>
         </div>
     );
 }

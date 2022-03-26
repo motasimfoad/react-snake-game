@@ -28,16 +28,6 @@ const App = ({ address, provider }) => {
   const [gameOver, setGameOver] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [toastShow, setToastShow] = useState(false);
-  const [winner, setWinner] = useState("")
-
-  useEffect(() => {
-
-    (async () => {
-      const gameContr = new ethers.Contract("0x0D543E36Ec5856725aebf7bAF379F2Ae433D499d", Abi)
-      setWinner(await gameContr.connect(provider).HIGH_SCORE_HOLDER())
-    })()
-
-  }, [modalShow])
 
   const resultGenerator = (nplayerName) => {
     firebase.firestore().collection('ScoreBoard').add({
@@ -297,7 +287,6 @@ const App = ({ address, provider }) => {
           <SnakeCharmers />
         </Col>
       </Row>
-      <strong>Winner : {winner}</strong>
       <MyVerticallyCenteredModal
         address={address}
         show={modalShow}
