@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import firebase from '../../Firebase/Config';
 import '../SnakeCharmers/charmer.css'
+import { Web3Initialization } from '../MerkleDB/index'
 
 function useScore() {
   const [score, setScore] = useState([]);
@@ -47,6 +48,7 @@ function SnakeCharmers() {
             )}
           </tbody>
         </Table>
+        <Web3Initialization />
       </div>
     </div>
   );
